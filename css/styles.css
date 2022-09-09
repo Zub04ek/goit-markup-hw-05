@@ -18,6 +18,7 @@ html {
     --team-background-color: #F5F4FA;
     --footer-background-color: #2F303A;
     --contacts-color: #AFB1B8;
+    --animation: 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
@@ -92,9 +93,11 @@ h1, h2, h3, p {
 }
 
 .nav-link {
+    position: relative;
     color: var(--basic-text-color);
     padding-top: 32px;
     padding-bottom: 32px;
+    transition: color var(--animation);
 }
 
 .nav-link:hover,
@@ -104,6 +107,18 @@ h1, h2, h3, p {
 
 .nav-link.current {
     color: var(--accent-color);
+}
+
+.nav-link.current::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    display: inline-block;
+    width: 100%;
+    height: 4px;
+    background-color: var(--accent-color);
+    border-radius: 2px;
 }
 
 .header-list {
@@ -123,6 +138,7 @@ h1, h2, h3, p {
     align-items: center;
     justify-content: center;
     gap: 10px;
+    transition: color var(--animation);
 }
 
 .header-link:hover,
@@ -188,6 +204,52 @@ h1, h2, h3, p {
     
 }
 
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: opacity var(--animation), visibility var(--animation), scale var(--animation);
+}
+
+.backdrop.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    scale: 0;
+}
+
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 528px;
+    min-height: 581px;
+    background: var(--primary-white-color);
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 1px rgba(0, 0, 0, 0.14), 0px 2px 1px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.modal-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: var(--primary-white-color);
+    cursor: pointer;
+}
+
 .section {
     padding-top: 94px;
     padding-bottom: 94px;
@@ -195,6 +257,27 @@ h1, h2, h3, p {
 
 .directions.section {
     padding-top: 0;
+}
+
+.directions-item {
+    position: relative;
+}
+
+.directions-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(47, 48, 58, 0.8);;
+}
+
+.directions-desc {
+    text-align: center;
+    color: var(--primary-white-color);
 }
 
 .directions-title,
@@ -257,7 +340,8 @@ img {
 }
 
 .benefits-title,
-.social-title {
+.social-title,
+.directions-desc {
     font-weight: 700;
     font-size: 14px;
     line-height: 1.14;
@@ -334,16 +418,19 @@ img {
     height: 44px;
     justify-content: center;
     align-items: center;
+    border-radius: 50%;
+    background-color: var(--primary-white-color);
+    transition: background-color var(--animation);
 }
 
 .contacts-link:hover,
 .contacts-link:focus {
     background-color: var(--accent-color);
-    border-radius: 50%;
 }
 
 .contacts-icon {
     fill: var(--contacts-color);
+    transition: fill var(--animation);
 }
 
 .contacts-link:hover .contacts-icon,
@@ -368,6 +455,7 @@ img {
     align-items: center;
     border: 1px solid var(--contacts-color);
     border-radius: 4px;
+    transition: border var(--animation);
 }
 
 .clients-link:hover,
@@ -377,6 +465,7 @@ img {
 
 .clients-icon {
     fill: var(--contacts-color);
+    transition: fill var(--animation);
 }
 
 .clients-link:hover .clients-icon,
@@ -450,6 +539,7 @@ img {
     align-items: center;
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.1);
+    transition: background-color var(--animation);
 }
 
 .social-link:hover,
@@ -497,6 +587,7 @@ img {
 
 .portfolio-group-button {
     color: var(--basic-text-color);
+    background-color: var(--team-background-color);
     font-family: Roboto, sans-serif;
     font-weight: 500;
     font-size: 16px;
@@ -509,6 +600,8 @@ img {
     border: 1px solid transparent;
     padding: 6px 22px;
     min-width: 73px;
+    box-shadow: none;
+    transition: background-color var(--animation), color var(--animation), box-shadow var(--animation);
 }
 
 .portfolio-group-button:hover,
@@ -518,9 +611,47 @@ img {
     box-shadow: 0px 3px 1px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.08), 0px 2px 2px rgba(0, 0, 0, 0.12);
 }
 
+.portfolio-link {
+    box-shadow: none;
+    transition: box-shadow var(--animation);
+}
+
 .portfolio-link:hover,
 .portfolio-link:focus {
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06), 1px 4px 6px rgba(0, 0, 0, 0.16);
+}
+
+.portfolio-thumb {
+    position: relative;
+    overflow: hidden;
+}
+
+.portfolio-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 63px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(33, 150, 243, 0.9);
+    opacity: 0;
+    transform: translateY(100%);
+    transition: transform var(--animation), opacity var(--animation);
+}
+
+.portfolio-link:hover .portfolio-overlay{
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.portfolio-text {
+    font-size: 18px;
+    line-height: 1.56;
+    letter-spacing: 0.03em;
+    color: var(--primary-white-color);
 }
 
 .portfolio-card {
